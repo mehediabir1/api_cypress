@@ -4,6 +4,7 @@ describe("API_demoqa", () => {
     let url = "https://6ammart.sixamtech.com/dev";
     let token;
     let fnm
+    let description;
     
     it("Register_customer", () => {
       cy.request("POST", url+"/api/v1/auth/sign-up", {
@@ -20,7 +21,7 @@ describe("API_demoqa", () => {
     });
 
 
-    it.only("Login_customer", () => {
+    it("Login_customer", () => {
         cy.request("POST", url+"/api/v1/auth/login", {
           phone: "+88017495521555",
           password: "@Sd@Sd12345",
@@ -33,7 +34,7 @@ describe("API_demoqa", () => {
       });
       
 
-      it.only("get_info", () => {
+      it("get_info", () => {
         cy.request({
             method: "GET",
             url: url+"/api/v1/customer/info",
@@ -42,9 +43,29 @@ describe("API_demoqa", () => {
             }
           }).then((response) => {
           
-        expect(response.status).to.eq(200);
-        fnm = response.l_name
-          cy.log("as " + fnm)
+            expect(response.status).to.eq(200);
+           // fnm = response.l_name
+            cy.log("as " + fnm)
+        });
+
+ 
+      });
+
+      it.only("item_campaigns", () => {
+        cy.request({
+            method: "GET",
+            url: url+"/api/v1/campaigns/item",
+            headers: {
+              zoneId:'[1]',
+              moduleId:1
+            }
+          }).then((response) => {
+          
+            expect(response.status).to.eq(200);
+           // fnm = response.l_name
+          description = response.body.description;
+          cy.log(description)
+
         });
 
  
